@@ -1,4 +1,3 @@
-# Zookeeper & Curator Framework
 
 ## Zookeeper
 
