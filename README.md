@@ -6,6 +6,7 @@
 
 Zookeeper Api 基础操作
 
+```java
     //创建客户端
     ZooKeeper zooKeeper = new ZooKeeper("127.0.0.1:2181", 5000, event -> log.debug(event.toString()));
     {
@@ -55,6 +56,7 @@ Zookeeper Api 基础操作
     }
     //关闭客户端
     zooKeeper.close();
+```
     
 ### 应用
 
@@ -72,6 +74,7 @@ Zookeeper Api 基础操作
 
 #### Curator Framework Api 基础操作
 
+```java
     //创建客户端
     CuratorFramework client = CuratorFrameworkFactory.builder()
             .connectString("127.0.0.1:2181")
@@ -124,9 +127,11 @@ Zookeeper Api 基础操作
         Stat stat = client.checkExists().forPath(path);
         log.debug("check exists for path {},stat {}", path, stat);
     }
+```
 
 #### 异步操作
 
+```java
     {
         //异步操作
         String path = client
@@ -137,9 +142,11 @@ Zookeeper Api 基础操作
                 .forPath("/inBackground");
         log.debug("inBackground path {}", path);
     }
+```
 
 #### 事务
 
+```java
     {
         //事务
         List<CuratorTransactionResult> tx = client.transaction().forOperations(
@@ -151,9 +158,11 @@ Zookeeper Api 基础操作
             log.debug("tx type {},error {},for path {},result path {},stat {}", t.getType(), t.getError(), t.getForPath(), t.getResultPath(), t.getResultStat());
         });
     }
+```
 
 #### 异步事务
 
+```java
     {
         //异步事务
         List<CuratorTransactionResult> tx = client
@@ -172,11 +181,13 @@ Zookeeper Api 基础操作
                         client.transactionOp().delete().forPath("/tx"));
 
     }
+```
 
 #### 分布式锁
 
 ##### 测试类
 
+```java
     class Test {
         int anInt = 0;
 
@@ -184,11 +195,13 @@ Zookeeper Api 基础操作
             this.anInt++;
         }
     }
+```
     
 ##### 可重入锁
 
 可重入锁实现类：InterProcessMutex
 
+```java
     {
         //可重入锁
         String path = "/srlock";
@@ -225,11 +238,13 @@ Zookeeper Api 基础操作
         pool.shutdown();
         log.debug("srlock {}", test.anInt);
     }
+```
 
 ##### 不可重入锁
 
 不可重入锁实现类：InterProcessSemaphoreMutex
 
+```java
     {
         //不可重入锁
         String path = "/slock";
@@ -265,11 +280,13 @@ Zookeeper Api 基础操作
         pool.shutdown();
         log.debug("slock {}", test.anInt);
     }
+```
 
 ##### 可重入读写锁
 
 可重入读写锁实现类：InterProcessReadWriteLock
 
+```java
     {
         //可重入读写锁
         String path = "/srrwlock";
@@ -318,8 +335,11 @@ Zookeeper Api 基础操作
         pool.shutdown();
         log.debug("srrwlock ", test.anInt);
     }
+```
     
 ##### 关闭客户端
     
+```java
     client.close();
+```
     
